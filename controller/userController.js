@@ -2,6 +2,7 @@ const User = require("../model/User");
 const Country = require("../model/Country");
 const fs = require("fs");
 const path = require("path");
+const PDFDocument = require("pdfkit");
 
 const createForm = async (req, res) => {
   try {
@@ -23,7 +24,6 @@ const createForm = async (req, res) => {
     res.status(500).json({ message: "Error saving form data" });
   }
 };
-
 
 const fetchCountry = async (req, res) => {
   try {
@@ -118,6 +118,8 @@ const openPdf = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
 
 module.exports = {
   createForm,

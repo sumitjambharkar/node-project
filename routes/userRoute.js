@@ -21,5 +21,4 @@ router.get('/api/fillter',userController.searchUser)
 router.delete('/api/user-remove/:id',userController.userDelete)
 router.get('/api/user-details/:id',userController.userDetails)
 router.get('/api/user-pdf/:id',userController.openPdf)
-
 module.exports = router;
