@@ -1,8 +1,5 @@
 const User = require("../model/User");
 const Country = require("../model/Country");
-const fs = require("fs");
-const path = require("path");
-const PDFDocument = require("pdfkit");
 
 const createForm = async (req, res) => {
   try {
@@ -15,7 +12,13 @@ const createForm = async (req, res) => {
       name,
       dateOfBirth,
       country,
-      resume,
+      resume:{
+        data:resume.buffer,
+        contentType:resume.mimetype,
+        filename:resume.originalname,
+        size:resume.size,
+        encoding:resume.encoding,
+      }
     });
     await saveData.save();
     res.json({ message: "success" });
@@ -103,21 +106,16 @@ const openPdf = async (req, res) => {
     if (!userId) {
       return res.status(404).json({ message: "User not found" });
     } else {
-      const fileStream = fs.createReadStream(userId.resume.path);
-      const stat = fs.statSync(userId.resume.path);
-      res.setHeader("Content-Length", stat.size);
-      res.setHeader("Content-Type", "application/pdf");
-      res.setHeader(
-        "Content-Disposition",
-        `inline; filename="${userId.resume.originalname}"`
-      );
-      fileStream.pipe(res);
+      const pdfData = userId.resume.data;
+      res.setHeader("Content-Type",userId.resume.contentType);
+      res.send(pdfData);
     }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 
 

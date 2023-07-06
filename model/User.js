@@ -14,14 +14,11 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   resume: {
-    fieldname: String,
-    originalname: String,
-    encoding: String,
-    mimetype: String,
-    destination: String,
-    filename: String,
-    path: String,
-    size: String,
+    data:Buffer,
+    contentType:String,
+    filename:String,
+    size:String,
+    encoding:String,
   },
 },{timestamps:true});
 
